@@ -23,7 +23,7 @@ public class ProjectConfig {
     @Bean
     public SpringResourceTemplateResolver templateResolve_0(){
         SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
-        resolver.setPrefix("classpatch:/templates/");
+        resolver.setPrefix("classpath:/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode(TemplateMode.HTML);
         resolver.setOrder(0);

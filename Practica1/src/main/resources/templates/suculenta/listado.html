@@ -7,10 +7,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     <head th:replace="~{general/fragmentos :: head}"></head>
     <body>
         <header th:replace="~{general/fragmentos :: header}"></header>
+        <section th:replace="~{general/fragmentos :: mostrarToast}"></section>
         <section th:replace="~{suculenta/fragmentos :: formulario}"></section>
         <section th:replace="~{suculenta/fragmentos :: listado}"></section>
         <section th:replace="~{general/fragmentos :: confirmarEliminar(@{/suculenta/eliminar},'idSuculenta')}"></section>
-        <footer th:replace='~(general/fragmentos :: footer)'></footer>
-        <script th:src="@{js/modulos/suculenta.js}"></script>
+        <footer th:replace='~{general/fragmentos :: footer}'></footer>
+        <script th:src="@{/js/modulos/suculenta.js}"></script>
     </body>
 </html>

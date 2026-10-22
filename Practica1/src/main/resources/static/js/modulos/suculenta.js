@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function (){
     
     const form = document.getElementById('suculentaForm');
     const header = document.getElementById('suculentaModalHeader');
-    const titulo = document.getElementById('SuculentaModalTitulo');
+    const titulo = document.getElementById('suculentaModalTitulo');
     const id = document.getElementById('suculentaId');
     const nombreComun = document.getElementById('suculentaNombreComun');
     const nombreCientifico = document.getElementById('suculentaNombreCientifico');
@@ -21,13 +21,13 @@ document.addEventListener('DOMContentLoaded', function (){
     const alturaCm = document.getElementById('suculentaAlturaCm');
     const precioEstimado = document.getElementById('suculentaPrecioEstimado');
     const nivelRiego = document.getElementById('suculentaNivelRiego');
-    const rutaImagen = document.getElementById('suculentaImagen');
+    const rutaImagen = document.getElementById('suculentaRutaImagen');
     const activo = document.getElementById('suculentaActivo');
-    const preview = document.getElementById('soculentaPreview');
+    const preview = document.getElementById('suculentaPreview');
     
     function limpiarPreview(){
         preview.removeAttribute('src');
-        preview.classList('d-none');
+        preview.classList.add('d-none');
     }
     
     function mostrarPreview(ruta){
@@ -48,24 +48,24 @@ document.addEventListener('DOMContentLoaded', function (){
        if(!button){
            return;
        }
-       const modo = button.getAtribute('data-modo');
+       const modo = button.getAttribute('data-modo');
        //Limpia información de una apertura anterior
        form.reset();
        id.value = '';
        limpiarPreview();
-       titulo.textContent = button.getAtribute('data-titulo') || '';
+       titulo.textContent = button.getAttribute('data-titulo') || '';
        header.classList.remove('bg-info', 'bg-warning', 'text-white');
        if(modo == 'editar'){
-           id.value = button.getAtribute('data-id') || '';
-           nombreComun.value = button.getAtribute('data-nombrecomun') || '';
-           nombreCientifico.value = button.getAtribute('data-nombrecientifico') || '';
-           familia.value = button.getAtribute('data-familia') || '';
-           colorPrincipal.value = button.getAtribute('data-colorprincipal') || '';
-           alturaCm.value = button.getAtribute('data-alturacm') || '';
-           precioEstimado.value = button.getAtribute('data-precioestimado') || '';
-           nivelRiego.value = button.getAtribute('data-nivelriego') || '';
-           rutaImagen.value = button.getAtribute('data-rutaimagen') || '';
-           activo.checked = button.getAtribute('data-actuvo') === 'true';
+           id.value = button.getAttribute('data-id') || '';
+           nombreComun.value = button.getAttribute('data-nombrecomun') || '';
+           nombreCientifico.value = button.getAttribute('data-nombrecientifico') || '';
+           familia.value = button.getAttribute('data-familia') || '';
+           colorPrincipal.value = button.getAttribute('data-colorprincipal') || '';
+           alturaCm.value = button.getAttribute('data-alturacm') || '';
+           precioEstimado.value = button.getAttribute('data-precioestimado') || '';
+           nivelRiego.value = button.getAttribute('data-nivelriego') || '';
+           rutaImagen.value = button.getAttribute('data-imagen') || '';
+           activo.checked = button.getAttribute('data-activo') === 'true';
            mostrarPreview(rutaImagen.value);
            header.classList.add('bg-warning');
        }else{
