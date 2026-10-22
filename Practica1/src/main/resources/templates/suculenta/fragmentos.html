@@ -1,0 +1,181 @@
+<!-- 1 Fragmento con formulario unificado para agregar y modificar suculentas -->
+<section th:fragment="formulario">
+    <div class="row py-4 mb-2 bg-light">
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#suculentaModal" 
+                data-modo="agregar" th:data-titulo="#{suculenta.agregar}">
+                <i class="fa-solid fa-plus"></i> [[#{suculenta.agregar}]]
+            </button>
+        </div>
+    </div>
+    <div class="modal fade" id="suculentaModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="suculentaForm" method="post" th:action="@{/suculenta/guardar}">
+                    <div class="modal-header" id="suculentaModalHeader">
+                        <h5 class="modal-title" id="suculentaModalTitulo"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="[[#{accion.cerrar}]]"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="suculentaId" name="idSuculenta"/>
+                        <div class="mb-3">
+                            <label for="suculentaNombreComun">[[#{suculenta.nombreComun}]]</label>
+                            <input type="text" id="suculentaNombreComun" name="nombreComun" class="form-control" maxlength="60" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="suculentaNombreCientifico">[[#{suculenta.nombreCientifico}]]</label>
+                            <input type="text" id="suculentaNombreCientifico" name="nombreCientifico" class="form-control" maxlength="100" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="suculentaFamilia">[[#{suculenta.familia}]]</label>
+                            <input type="text" id="suculentaFamilia" name="familia" class="form-control" maxlength="60" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="suculentaColorPrincipal">[[#{suculenta.colorPrincipal}]]</label>
+                            <input type="text" id="suculentaColorPrincipal" name="colorPrincipal" class="form-control" maxlength="30" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="suculentaAlturaCm">[[#{suculenta.alturaCm}]]</label>
+                            <input type="number" id="suculentaAlturaCm" name="alturaCm" min="1" step="1" class="form-control" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="suculentaPrecioEstimado">[[#{suculenta.precioEstimado}]]</label>
+                            <input type="number" id="suculentaPrecioEstimado" name="precioEstimado" min="0.01" step="0.01" class="form-control" required/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="suculentaNivelRiego">[[#{suculenta.nivelRiego}]]</label>
+                            <select id="suculentaNivelRiego" name="nivelRiego" class="form-select" required>
+                                <option value="Bajo">[[#{suculenta.riego.bajo}]]</option>
+                                <option value="Medio">[[#{suculenta.riego.medio}]]</option>
+                                <option value="Alto">[[#{suculenta.riego.alto}]]</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="suculentaRutaImagen">[[#{suculenta.rutaImagen}]]</label>
+                            <input type="text" id="suculentaRutaImagen" name="rutaImagen" class="form-control" maxlength="1024"/>
+                            <img id="suculentaPreview" class="d-none mt-2" alt="[[#{suculenta.imagen}]]" height="200"/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="suculentaActivo">[[#{suculenta.activo}]]</label>
+                            <input type="checkbox" id="suculentaActivo" name="activo" class="form-check-input"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-xmark"></i> [[#{accion.cerrar}]]
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa-solid fa-floppy-disk"></i> [[#{accion.guardar}]]
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- fragmento 2 para el listado de suculentas -->
+<section th:fragment="listado" class="p-3">
+    <div class="row p-3">
+        <div class="col-md-9">
+            <div class="card p-2">
+                <div class="card-header"><h4>[[#{suculenta.listado}]]</h4></div>
+                <div class="card-body">
+                    <div th:if="${suculentas != null and !suculentas.empty}">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>[[#{suculenta.imagen}]]</th>
+                                    <th>[[#{suculenta.nombreComun}]]</th>
+                                    <th>[[#{suculenta.nombreCientifico}]]</th>
+                                    <th>[[#{suculenta.familia}]]</th>
+                                    <th>[[#{suculenta.colorPrincipal}]]</th>
+                                    <th>[[#{suculenta.alturaCm}]]</th>
+                                    <th>[[#{suculenta.precioEstimado}]]</th>
+                                    <th>[[#{suculenta.nivelRiego}]]</th>
+                                    <th>[[#{suculenta.activo}]]</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="s : ${suculentas}">
+                                    <td>[[${s.idSuculenta}]]</td>
+                                    <td><img th:if="${s.rutaImagen != null}" th:src="${s.rutaImagen}" 
+                                             th:alt="${s.nombreComun}" height="75"></td>
+                                    <td>[[${s.nombreComun}]]</td>
+                                    <td>[[${s.nombreCientifico}]]</td>
+                                    <td>[[${s.familia}]]</td>
+                                    <td>[[${s.colorPrincipal}]]</td>
+                                    <td class="text-end">[[${s.alturaCm}]]</td>
+                                    <td class="text-end">[[${#numbers.formatCurrency(s.precioEstimado)}]]</td>
+                                    <td>[[${s.nivelRiego}]]</td>
+                                    <td th:text="${s.activo} ? #{suculenta.estado.activa} : #{suculenta.estado.inactiva}"></td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" 
+                                                data-bs-target="#confirmModal" th:data-bs-id="${s.idSuculenta}" th:data-bs-descripcion="${s.nombreComun}">
+                                            <i class="fa-solid fa-trash"></i> [[#{accion.eliminar}]]
+                                        </button>
+                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" 
+                                                data-bs-target="#suculentaModal" data-modo="editar" th:data-titulo="#{accion.actualizar}" 
+                                                th:data-id="${s.idSuculenta}" th:data-nombrecomun="${s.nombreComun}" 
+                                                th:data-nombrecientifico="${s.nombreCientifico}" th:data-familia="${s.familia}" 
+                                                th:data-colorprincipal="${s.colorPrincipal}" th:data-alturacm="${s.alturaCm}"
+                                                th:data-precioestimado="${s.precioEstimado}" th:data-nivelriego="${s.nivelRiego}"
+                                                th:data-activo="${s.activo}" th:data-imagen="${s.rutaImagen != null ? s.rutaImagen : ''}">
+                                            <i class="fas fa-pencil-alt"></i> [[#{accion.actualizar}]]
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center p-2" th:if="${suculentas == null or suculentas.empty}">
+                        <span>[[#{lista.vacia}]]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center bg-success text-white mb-3">
+                <div class="card-body">
+                    <h3>[[#{suculenta.total}]]</h3>
+                    <h4 class="fs-2"><i class="fas fa-layer-group"></i>[[${totalSuculentas}]]</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- fragmento 3 para las suculentas al inicio -->
+
+<section th:fragment="tarjetas" class="container py-4">
+    <h3 class="text-center mb-4">[[#{index.titulo}]]</h3>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+        <div th:if="${suculentas == null or suculentas.empty}" class="text-center py-4 w-100">
+            <span>[[#{lista.vacia}]]</span>
+        </div>
+        <div th:each="s : ${suculentas}" class="col">
+            <div class="card h-100 shadow">
+                <div class="d-flex justify-content-center align-items-center bg-light p-3" style="height: 200px:">
+                    <img th:if="${s.rutaImagen != null}" th:src="${s.rutaImagen}" th:alt="${s.nombreComun}" class="img-fluid" 
+                         style="max-height: 100%; object-fit: contain"/>
+                </div>
+                <div class="card-header bg-white">
+                    <h5 class="card-title text-center text-truncate mb-0">[[${s.nombreComun}]]</h5>
+                    <p class="text-center text-muted mb-0 text-truncate">[[${s.nombreCientifico}]]</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-text"><strong>[[#{suculenta.familia}]]:</strong> [[${s.familia}]]</p>
+                    <p class="card-text"><strong>[[#{suculenta.colorPrincipal}]]:</strong> [[${s.colorPrincipal}]]</p>
+                    <p class="card-text"><strong>[[#{suculenta.alturaCm}]]:</strong> [[${s.alturaCm}]]</p>
+                    <p class="card-text mb-0"><strong>[[#{suculenta.nivelRiego}]]:</strong> [[${s.nivelRiego}]]</p>
+                </div>
+                <div class="card-footer bg-white text-center">
+                    <span class="text-success h5">[[${#numbers.formatCurrency(s.precioEstimado)}]]</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
